@@ -31,7 +31,7 @@
 
     mounted() {
       let _this = this;
-      Vue.$on('show', (title, body) => {
+      Vue.$on('show-modal', (title, body) => {
         _this.title = title;
         _this.body = body;
         _this.show = true;
