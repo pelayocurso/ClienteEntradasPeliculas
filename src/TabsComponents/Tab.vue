@@ -1,5 +1,5 @@
 <template>
-  <div v-show="activated" class="tab-pane fade">
+  <div v-show="activated" class="tab-pane fade" :class="{'active in': activated}">
     <slot></slot>
   </div>
 </template>
@@ -7,14 +7,17 @@
 <script>
   export default {
     name: 'tab',
-    props: ['name', 'selected' => false],
+    props: {
+      name: false,
+      selected: false
+    },
 
     data () {
       return { activated: false };
     },
 
     mounted() {
-      this.activated = this.default;
+      this.activated = this.selected;
     },
 
     computed: {

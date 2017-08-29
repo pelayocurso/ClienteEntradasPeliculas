@@ -8,12 +8,12 @@
 
 <script>
 import Modal from './SingleComponents/Modal.vue';
-import Tab-Master from './TabsComponents/Tab-Master.vue';
+import TabMaster from './TabsComponents/TabMaster.vue';
 
 export default {
   name: 'app',
   components: {
-      Modal, Tab-Master
+      Modal, TabMaster
   },
 
   data () {
