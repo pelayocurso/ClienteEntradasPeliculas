@@ -1,5 +1,6 @@
 <template>
-<div :class="{'modal': true, 'fade': true, 'show': show}">
+<div id="myModal" class="modal fade show" tabindex="-1" role="dialog">
+<!-- <div :class="{'modal': true, 'fade': true, 'show': show}"> -->
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -26,23 +27,23 @@ export default {
   data() {
     return {
       title: '',
-      body: '',
-      show: false
+      body: ''
     };
   },
 
   mounted() {
     let _this = this;
     Vue.$on('show-modal', (title, body) => {
+      console.log('on: show-modal');
       _this.title = title;
       _this.body = body;
-      _this.show = true;
+      $('#myModal').modal('show');
     });
   },
 
   methods: {
     closeButton() {
-      _this.show = false;
+      $('#myModal').modal('hide');
     }
   }
 };

@@ -1,10 +1,10 @@
 <template>
 <div class="row">
   <div class="list-group col-xs-4">
-    <button @click="handleCreateNewPelicula"> Crear Nueva Pelicula </button>
+    <button id="new-btn" class="btn btn-primary" @click="handleCreateNewPelicula"> Crear Nueva Pelicula </button>
     <a v-for="pelicula in peliculas" href="#" class="list-group-item" @click="handleUpdatePelicula(pelicula)">
         <span>{{ pelicula.Nombre }}</span>
-        <button @click="handleDeletePelicula(pelicula)"> Delete </button>
+        <button class="btn-danger" @click="handleDeletePelicula(pelicula, $event)"> Delete </button>
       </a>
   </div>
   <div class="col-xs-4">
@@ -33,20 +33,6 @@ export default {
   mounted() {
     this.loadAllPeliculas();
     let _this = this;
-
-    // this.$on('added-pelicula', (pelicula) => {
-    //   _this.peliculas.push(pelicula);
-    // });
-    //
-    // this.$on('modified-pelicula', (modified_pelicula) => {
-    //   _this.peliculas.forEach((pelicula) => {
-    //     if (pelicula.Id == modified_pelicula.Id) {
-    //       let index = _this.peliculas.indexOf(pelicula);
-    //       _this.peliculas[index] = modified_pelicula;
-    //       // break;
-    //     }
-    //   });
-    // });
   },
 
   methods: {
@@ -56,17 +42,18 @@ export default {
       axios.get(this.host).then((response) => {
         _this.peliculas = response.data;
       }).catch((error) => {
-        Vue.$emit('show-modal', 'Error al conectar al servidor', error);
+        console.log(error)
+        Vue.$emit('show-modal', error.message, error.stack);
       });
     },
 
     deletePelicula(pelicula) {
       let _this = this;
-      axios.get(this.host + '/' + pelicula.Id).then((response) => {
+      axios.delete(this.host + '/' + pelicula.Id).then((response) => {
         let index = _this.peliculas.indexOf(pelicula);
         _this.peliculas.splice(index, 1);
       }).catch((error) => {
-        Vue.$emit('show-modal', 'Error al conectar al servidor', error);
+        Vue.$emit('show-modal', error.message, error.stack);
       });
     },
 
@@ -76,7 +63,8 @@ export default {
     },
 
     onModifiedPelicula(modified_pelicula) {
-      _this.peliculas.forEach((pelicula) => {
+      let _this = this;
+      this.peliculas.forEach((pelicula) => {
          if (pelicula.Id == modified_pelicula.Id) {
            let index = _this.peliculas.indexOf(pelicula);
            _this.peliculas[index] = modified_pelicula;
@@ -94,7 +82,8 @@ export default {
       Vue.$emit('show-pelicula-form', pelicula)
     },
 
-    handleDeletePelicula(pelicula) {
+    handleDeletePelicula(pelicula, event) {
+      event.stopPropagation();
       this.deletePelicula(pelicula);
       Vue.$emit('close-pelicula-form');
     },
@@ -108,5 +97,9 @@ export default {
   }
   .list-group-item button {
     float: right;
+  }
+  #new-btn {
+    margin-bottom: 15px;
+    width: 100%;
   }
 </style>

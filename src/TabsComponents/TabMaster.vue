@@ -21,12 +21,13 @@
 <script>
   import Tab from './Tab.vue';
   import PeliculaMaster from  '../PeliculasComponents/PeliculaMaster.vue'
+  import Alert from '../SingleComponents/Alert.vue';
   //import EntradaMaster from  '../EntradasComponents/EntradaMaster.vue'
 
   export default {
     name: 'tab-master',
     components: {
-      Tab, PeliculaMaster//, EntradaMaster
+      Tab, Alert, PeliculaMaster//, EntradaMaster
     },
 
     data() {
